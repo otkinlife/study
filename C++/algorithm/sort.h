@@ -10,7 +10,13 @@
 #include <iostream>
 #include "../dataStructure/linkList.h"
 using namespace std;
-
+/**
+ * 该类主要实现了各种排序算法，基于双向链表实现
+ *
+ * 冒泡排序，插入排序，选择排序时间复杂度为O(n^2)。适合小规模数据排序
+ *
+ * 归并排序，快速排序时间复杂度为O(nlogn)。适合大规模数据排序
+ */
 static class Sort {
 public:
     //冒泡排序
@@ -85,4 +91,7 @@ public:
         }
         return Link;
     }
+
+    //todo: 归并排序
+    //todo: 快速排序
 };
