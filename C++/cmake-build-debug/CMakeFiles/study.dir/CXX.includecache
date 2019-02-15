@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jiakaichao/study/C++/algorithm/sort.h
+iostream
+-
+../dataStructure/linkList.h
+/Users/jiakaichao/study/C++/dataStructure/linkList.h
+
+/Users/jiakaichao/study/C++/dataStructure/linkList.h
+vector
+-
+iostream
+-
+
+/Users/jiakaichao/study/C++/main.cpp
+iostream
+-
+algorithm/sort.h
+/Users/jiakaichao/study/C++/algorithm/sort.h
+

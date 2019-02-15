@@ -61,4 +61,28 @@ public:
         }
         return Link;
     }
+
+    //选择排序
+    //线性表从未排序部分找到最小值放到排序部分的最左边
+    //基于比较排序
+    //空间复杂度O(1)，是原地排序
+    //最好情况时间复杂度 O(n^2) 最坏情况时间复杂度 O(n^2) 平均情况时间复杂度 O(n^2)
+    static DoubleLinkList *SelectSort(DoubleLinkList *Link) {
+        for (int i = 0; i < Link->currentLength - 1; i++) {
+            LinkNode *unsorted = Link->head->next;
+            for (int m = 0; m < i; m++) {
+                unsorted = unsorted->next;
+            }
+            LinkNode *temp = unsorted;
+            LinkNode *min = unsorted;
+            for (int j = 0; j < Link->currentLength - i; j++) {
+                if (temp->data < min->data) {
+                    min = temp;
+                }
+                temp = temp->next;
+            }
+            Link->swap(unsorted, min);
+        }
+        return Link;
+    }
 };

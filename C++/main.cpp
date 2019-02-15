@@ -14,7 +14,8 @@ int main() {
     LinkList->addToLast(66);
     LinkList->printAll();
     //LinkList = Sort::BubbleSort(LinkList);
-    LinkList = Sort::InsertSort(LinkList);
+    //LinkList = Sort::InsertSort(LinkList);
+    LinkList = Sort::SelectSort(LinkList);
     LinkList->printAll();
     return 0;
 }
