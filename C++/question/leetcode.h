@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string.h>
 
 using namespace std;
 
@@ -127,4 +128,70 @@ public:
         }
         return false;
     }
-}
+
+    //编写一个函数来查找字符串数组中的最长公共前缀。
+    //如果不存在公共前缀，返回空字符串 ""。
+    string longestCommonPrefix(vector<string>& strs) {
+        //先找到最短长度的字符串
+        //todo
+    }
+
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *p;
+        p = head;
+        vector<ListNode *> temp;
+        while (p != NULL) {
+            temp.push_back(p);
+            if (p->next == NULL) {
+                break;
+            }
+            p = p->next;
+        }
+        //要删除的节点位置
+        int i = temp.size() - n;
+        //删除第一个节点
+        if (i < 1) {
+            if (temp[0]->next != NULL) {
+                head = temp[1];
+            } else {
+                head = NULL;
+            }
+        } else if (i == temp.size() - 1) {
+            temp[i - 1]->next = NULL;
+        } else {
+            temp[i - 1]->next = temp[i + 1];
+        }
+        return head;
+    }
+
+    //给定一个排序数组，你需要在原地删除重复出现的元素，使得每个元素只出现一次，返回移除后数组的新长度。
+    //不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+    int removeDuplicates(vector<int> nums) {
+        if (nums.size() < 1) return 0;
+        int i = 1;
+        while (i < nums.size()) {
+            if (nums[i] == nums[i - 1]) {
+                nums.erase(nums.begin() + i - 1);
+            } else {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    //给定一个数组 nums 和一个值 val，你需要原地移除所有数值等于 val 的元素，返回移除后数组的新长度。
+    //不要使用额外的数组空间，你必须在原地修改输入数组并在使用 O(1) 额外空间的条件下完成。
+    //元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。
+    int removeElement(vector<int> nums, int val) {
+        if (nums.size() < 1) return 0;
+        int i = 0;
+        while (i < nums.size()) {
+            if (nums[i] == val) {
+                nums.erase(nums.begin() + i);
+            } else {
+                i++;
+            }
+        }
+        return i;
+    }
+};
