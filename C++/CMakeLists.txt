@@ -3,4 +3,4 @@ project(study)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(study main.cpp dataStructure/linkList.h algorithm/sort.h)
+add_executable(study main.cpp dataStructure/linkList.h algorithm/sort.h question/question.h)

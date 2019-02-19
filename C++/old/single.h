@@ -10,6 +10,7 @@
 #define ENTER_SINGLE_H
 
 #include <iostream>
+
 using namespace std;
 
 class Node {
@@ -22,7 +23,7 @@ public:
 class single {
 public:
     //创建一个链表
-    Node *create(){
+    Node *create() {
         Node *head = new Node;
         head->next = NULL;
         //头结点的data储存链表长度
@@ -36,7 +37,7 @@ public:
         int flag = 1;
         while (true) {
             if (flag == 1) {
-                cout <<"[" << current->data << "] ";
+                cout << "[" << current->data << "] ";
             } else {
                 cout << current->data << " ";
                 if (current->next == NULL) {
@@ -50,7 +51,7 @@ public:
     }
 
     //向链表末尾添加一个数据
-    bool push(Node *head, int param){
+    bool push(Node *head, int param) {
         head->data += 1;
         Node *current = head;
         Node *last = new Node;
@@ -64,7 +65,7 @@ public:
     }
 
     //删除链表最后一个元素
-   bool pop(Node *head) {
+    bool pop(Node *head) {
         Node *current = head;
         Node *pre;
         //如果链表长度小于等于0则直接返回头结点
