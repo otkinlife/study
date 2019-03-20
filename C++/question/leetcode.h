@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <string.h>
 
 using namespace std;
@@ -18,6 +19,14 @@ struct ListNode {
     ListNode *next;
 
     ListNode(int x) : val(x), next(NULL) {}
+};
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 class LeetCode {
@@ -92,13 +101,6 @@ public:
         return maxlen;
     }
 
-    //给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
-    //请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
-    //你可以假设 nums1 和 nums2 不会同时为空。
-    double findMedianSortedArrays(vector<int> &nums1, vector<int> &nums2) {
-        vector<int> merge;
-    }
-
     int reverse(int x) {
         int res = 0;
         while (x != 0) {
@@ -111,6 +113,7 @@ public:
         }
         return res;
     }
+
     //判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
     bool isPalindrome(int x) {
         if (x < 0) return false;
@@ -131,12 +134,12 @@ public:
 
     //编写一个函数来查找字符串数组中的最长公共前缀。
     //如果不存在公共前缀，返回空字符串 ""。
-    string longestCommonPrefix(vector<string>& strs) {
+    string longestCommonPrefix(vector<string> &strs) {
         //先找到最短长度的字符串
         //todo
     }
 
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode *removeNthFromEnd(ListNode *head, int n) {
         ListNode *p;
         p = head;
         vector<ListNode *> temp;
@@ -193,5 +196,191 @@ public:
             }
         }
         return i;
+    }
+
+    vector<int> plusOne(vector<int> &digits) {
+        long int nums = 0;
+        for (int i = 0; i < digits.size(); i++) {
+            nums = nums * 10 + digits[i];
+        }
+        nums++;
+        digits.clear();
+        stack<int> res;
+        while (nums != 0) {
+            int temp = nums % 10;
+            res.push(temp);
+            cout << res.top() << endl;
+            nums /= 10;
+        }
+        while (!res.empty()) {
+            cout << res.top() << endl;
+            digits.push_back(res.top());
+            res.pop();
+        }
+        for (int i = 0; i < digits.size(); i++) {
+            cout << digits[i] << endl;
+        }
+        return digits;
+    }
+
+    //将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。
+    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
+        ListNode *p = l1;
+        ListNode *q = l2;
+        ListNode *res = new ListNode(0);
+        ListNode *cur = res;
+        while (p != NULL && q != NULL) {
+            if (p->val < q->val) {
+                cur->next = p;
+                p = p->next;
+            } else {
+                cur->next = q;
+                q = q->next;
+            }
+            cur = cur->next;
+        }
+        if (p == NULL) {
+            cur->next = q;
+        }
+        if (q == NULL) {
+            cur->next = p;
+        }
+        return res->next;
+    }
+
+    //合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
+        ListNode *temp = NULL;
+        if (lists.size() <= 0) {
+            return NULL;
+        } else if (lists.size() == 1) {
+            return lists[0];
+        } else {
+            temp = lists[0];
+            for (int i = 1; i < lists.size(); i++) {
+                temp = mergeTwoLists(temp, lists[i]);
+            }
+        }
+        return temp;
+    }
+
+    //给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。
+    //请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。
+    double findMedianSortedArrays(vector<int> nums1, vector<int> nums2) {
+        vector<int> temp;
+        int i = 0;
+        int j = 0;
+        while (i < nums1.size() && j < nums2.size()) {
+            if (nums1[i] < nums2[j]) {
+                temp.push_back(nums1[i]);
+                i++;
+            } else {
+                temp.push_back(nums2[j]);
+                j++;
+            }
+        }
+        for (; i < nums1.size(); i++) {
+            temp.push_back(nums1[i]);
+        }
+        for (; j < nums2.size(); j++) {
+            temp.push_back(nums2[j]);
+        }
+        double res = 0.0;
+        int flag = temp.size() % 2;
+        int mid = temp.size() / 2;
+        if (flag == 1) {
+            res = temp[mid];
+        } else {
+            res = (temp[mid] + temp[mid - 1]) / 2.0;
+        }
+        return res;
+    }
+
+    //给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。
+    //candidates 中的数字可以无限制重复被选取。
+    vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> item;
+        backtrade(candidates, 0, target, item, res);
+        return res;
+
+    }
+
+    void backtrade(vector<int> candidates, int start, int target, vector<int> item, vector<vector<int>> &res) {
+        if (target < 0)
+            return;
+        if (target == 0) {
+            res.push_back(item);
+            return;
+        }
+        for (int i = start; i < candidates.size(); i++) {
+            item.push_back(candidates[i]);
+            backtrade(candidates, i, target - candidates[i], item, res);
+            item.pop_back();
+        }
+    }
+
+
+    bool isSameTree(TreeNode *p, TreeNode *q) {
+        if (p == NULL && q == NULL) {
+            return true;
+        } else if ((p == NULL && q != NULL) || (p != NULL && q == NULL)) {
+            return false;
+        } else if (p != NULL && q != NULL) {
+            if (p->val == q->val) {
+                if (p->left == NULL && q->left == NULL && p->right == NULL && q->right == NULL) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+        bool leftRes = false;
+        bool rightRes = false;
+        leftRes = isSameTree(p->left, q->left);
+        rightRes = isSameTree(p->right, q->right);
+        return leftRes && rightRes;
+    }
+
+    string addBinary(string a, string b) {
+        int length = 0;
+        string res;
+        if (a.size() > b.size()) {
+            length = a.size();
+            while (b.size() < length) {
+                b.insert(0, "0");
+            }
+        } else {
+            length = b.size();
+            while (a.size() < length) {
+                a.insert(0, "0");
+            }
+        }
+        int flag = 0;
+        for (int i = length - 1; i >= 0 ; i--) {
+            int ta = a[i] == '1' ? 1 : 0;
+            int tb = b[i] == '1' ? 1 : 0;
+            int temp = ta + tb + flag;
+            if (temp == 2) {
+                flag = 1;
+                res.insert(0, "0");
+                if (i == 0) {
+                    res.insert(0, "1");
+                }
+            } else if (temp == 3) {
+                flag = 1;
+                res.insert(0, "1");
+                if (i == 0) {
+                    res.insert(0, "1");
+                }
+            } else if (temp == 1) {
+                flag = 0;
+                res.insert(0, "1");
+            } else {
+                flag = 0;
+                res.insert(0, "0");
+            }
+        }
+        return res;
     }
 };
