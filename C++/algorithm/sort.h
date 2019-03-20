@@ -9,7 +9,9 @@
 
 #include <iostream>
 #include "../dataStructure/linkList.h"
+
 using namespace std;
+
 /**
  * 该类主要实现了各种排序算法，基于双向链表实现
  *
@@ -31,7 +33,7 @@ public:
             LinkNode *temp = Link->head->next;
             //内部比较次数应该是 链表长度-外层循环完成次数-1
             for (int j = 0; j < Link->currentLength - 1 - i; j++) {
-                if(temp->data > temp->next->data) {
+                if (temp->data > temp->next->data) {
                     Link->swap(temp, temp->next);
                     flag = true;
                 }
@@ -58,7 +60,7 @@ public:
             }
             LinkNode *temp = Link->head->next;
             for (int j = i; j > 0; j--) {
-                if(sorted->next->data < temp->data) {
+                if (sorted->next->data < temp->data) {
                     Link->addToPosition(sorted->next, temp->pre);
                     break;
                 }
@@ -93,5 +95,26 @@ public:
     }
 
     //todo: 归并排序
-    //todo: 快速排序
+
+    //快速排序
+    //选一个元素，比它大的放右边，比它小的放左边，递归调用
+    //当数组low和high相等时表示只有一个元素无需排序，递归终止
+    static void QuickSort(vector<int> &nums, int low, int high) {
+        if (low >= high) {
+            return;
+        }
+        int i = low;//i是最后一个小于主元的数的下标
+        for (int j = low; j < high; j++)//遍历下标由low到high-1的数
+        {
+            if (nums[j] < nums[high])//如果数小于主元的话就将i向前挪动一个位置，并且交换j和i所分别指向的数
+            {
+                swap(nums[i], nums[j]);
+                i++;
+            }
+        }
+        //经历上面的循环之后下标为从low到i（包括i）的数就均为小于x的数了，现在将主元和i+1位置上面的数进行交换
+        swap(nums[high], nums[i]);
+        QuickSort(nums, low, i - 1);
+        QuickSort(nums, i + 1, high);
+    }
 };
