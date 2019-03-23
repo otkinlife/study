@@ -11,6 +11,7 @@
 #include <vector>
 #include <stack>
 #include <string.h>
+#include <set>
 
 using namespace std;
 
@@ -357,7 +358,7 @@ public:
             }
         }
         int flag = 0;
-        for (int i = length - 1; i >= 0 ; i--) {
+        for (int i = length - 1; i >= 0; i--) {
             int ta = a[i] == '1' ? 1 : 0;
             int tb = b[i] == '1' ? 1 : 0;
             int temp = ta + tb + flag;
@@ -394,5 +395,39 @@ public:
             return 2;
         }
         return climbStairs(n - 1) + climbStairs(n - 2);
+    }
+
+    //杨辉三角
+    /* 输入: 5
+     输出:
+     [
+         [1],
+        [1,1],
+       [1,2,1],
+      [1,3,3,1],
+     [1,4,6,4,1]
+     ]*/
+    vector<vector<int>> generate(int numRows) {
+        vector<vector<int>> res;
+        if (numRows <= 0) {
+            return res;
+        }
+        for (int i = 0; i < numRows; i++) {
+            vector<int> temp;
+            if (i == 0) {
+                temp.push_back(1);
+            } else if (i == 1) {
+                temp.push_back(1);
+                temp.push_back(1);
+            } else {
+                temp.push_back(1);
+                for (int j = 1; j < i; j++) {
+                    temp.push_back(res[i - 1][j - 1] + res[i - 1][j]);
+                }
+                temp.push_back(1);
+            }
+            res.push_back(temp);
+        }
+        return res;
     }
 };
