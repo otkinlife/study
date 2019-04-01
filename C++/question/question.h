@@ -83,6 +83,18 @@ public:
         }
         return s.substr(pos + 1).size();
     }
+
+    //给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现了三次。找出那个只出现了一次的元素。
+    int singleNumber(vector<int> nums) {
+        int a = 0, b = 0, i = 1;
+        for (auto x : nums) {
+            //三次会变零
+            a = (a ^ x) & ~b;
+            b = (b ^ x) & ~a;
+            ++i;
+        }
+        return a;
+    }
 };
 
 #endif //ENTER_ARR_H

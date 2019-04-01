@@ -430,4 +430,88 @@ public:
         }
         return res;
     }
+
+    void deleteNode(ListNode* node) {
+        node->val = node->next->val;
+        node->next = node->next->next;
+    }
+
+    //给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+    //设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+    int maxProfit(vector<int> prices) {
+        int res = 0;
+        for (int i = 0; i < prices.size(); i++) {
+            if (i == 0) {
+                continue;
+            }
+            //如果比前一个大
+            if (prices[i] > prices[i - 1]) {
+                res += prices[i] - prices[i - 1];
+            }
+        }
+        return res;
+    }
+
+    //给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
+    void rotate(vector<int> nums, int k) {
+        k = k % nums.size();
+        for (int i = 0; i < k; i++) {
+            int temp = nums[nums.size() - 1];
+            for (int j = nums.size() - 2; j >= 0; j--) {
+                nums[j + 1] = nums[j];
+            }
+            nums[0] = temp;
+        }
+    }
+
+    ListNode* removeNthFromEnd2(ListNode* head, int n) {
+        ListNode *current = head;
+        vector<ListNode*> temp;
+        while (current != NULL) {
+            temp.push_back(current);
+            if (current->next == NULL) {
+                break;
+            }
+            current = current->next;
+        }
+        int i = temp.size() - n;
+        if (i < 0 || i > temp.size() - 1) {
+            return head;
+        } else if (i == temp.size() - 1) {
+            if (i <= 0) {
+                head = NULL;
+            } else {
+                temp[i - 1]->next = NULL;
+            }
+            return head;
+        }
+        temp[i]->val = temp[i + 1]->val;
+        temp[i]->next = temp[i + 1]->next;
+        return head;
+    }
+
+    ListNode* reverseList(ListNode* head) {
+        stack<ListNode*> temp;
+        ListNode *current = head;
+        if (head == NULL) {
+            return head;
+        }
+        while (true) {
+            temp.push(current);
+            if (current->next == NULL) {
+                break;
+            }
+            current = current->next;
+        }
+        head = temp.top();
+        temp.pop();
+        int a = 0;
+        while (!temp.empty()) {
+            current->next = temp.top();
+            temp.pop();
+            current = current->next;
+        }
+        current->next = NULL;
+        return head;
+    }
 };
